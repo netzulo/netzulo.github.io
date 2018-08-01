@@ -1,0 +1,303 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>qacode.core.webs.pages.page_base &#8212; qacode v0.5.7 documentation</title>
+    <link rel="stylesheet" href="../../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for qacode.core.webs.pages.page_base</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;package module qacode.core.webs.pages.page_base&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">qacode.core.exceptions.control_exception</span> <span class="k">import</span> <span class="n">ControlException</span>
+<span class="kn">from</span> <span class="nn">qacode.core.exceptions.core_exception</span> <span class="k">import</span> <span class="n">CoreException</span>
+<span class="kn">from</span> <span class="nn">qacode.core.exceptions.page_exception</span> <span class="k">import</span> <span class="n">PageException</span>
+<span class="kn">from</span> <span class="nn">qacode.core.webs.controls.control_base</span> <span class="k">import</span> <span class="n">ControlBase</span>
+<span class="kn">from</span> <span class="nn">qacode.core.webs.controls.control_form</span> <span class="k">import</span> <span class="n">ControlForm</span>
+<span class="kn">from</span> <span class="nn">qacode.core.webs.controls.control_group</span> <span class="k">import</span> <span class="n">ControlGroup</span>
+
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="k">import</span> <span class="n">By</span>
+
+
+<div class="viewcode-block" id="PageBase"><a class="viewcode-back" href="../../../../../_static/pages.html#qacode.core.webs.pages.page_base.PageBase">[docs]</a><span class="k">class</span> <span class="nc">PageBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for all Inehrit Page classes wich need selenium functionality</span>
+<span class="sd">    througth qacode bot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bot</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Instance of PageBase class</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            bot {BotBase} -- BotBase or inherit class instance</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            url {str} -- string for url of page</span>
+<span class="sd">            locator {BY} -- strategy used to search all selectors</span>
+<span class="sd">                passed, default value it&#39;s locator.CSS_SELECTOR</span>
+<span class="sd">                (default: {BY.CSS_SELECTOR})</span>
+<span class="sd">            go_url {bool} -- navigate to &#39;self.url&#39; at instance</span>
+<span class="sd">                (default: {False})</span>
+<span class="sd">            wait_url {int} -- seconds to wait for &#39;self.url&#39; load</span>
+<span class="sd">                at instance (default: {0})</span>
+<span class="sd">            maximize {bool} -- allow to maximize browser window</span>
+<span class="sd">                before to load elements at instance (default: {False})</span>
+<span class="sd">            controls {list(dict)} -- list of dicts with settings for each</span>
+<span class="sd">                control which want to load</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            PageException -- if required param &#39;bot&#39; is None</span>
+<span class="sd">            PageException -- if required param &#39;url&#39; is None or empty str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bot</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PageException</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;param bot is None&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PageException</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s1">&#39;Optional params must be a dict&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PageException</span><span class="p">(</span>
+                <span class="n">message</span><span class="o">=</span><span class="s1">&#39;Param url can</span><span class="se">\&#39;</span><span class="s1">t be None, just empty string&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;locator&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;locator&#39;</span><span class="p">:</span> <span class="n">By</span><span class="o">.</span><span class="n">CSS_SELECTOR</span><span class="p">})</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;go_url&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;go_url&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;wait_url&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;wait_url&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;maximize&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;maximize&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;controls&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;controls&#39;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads page elements and maximize browser window&quot;&quot;&quot;</span>
+        <span class="c1"># TODO: tests passed ?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="p">:</span>
+            <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;go_url&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">go_url</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;maximize&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;page action: maximizing browser window&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">navigation</span><span class="o">.</span><span class="n">get_maximize_window</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;controls&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s1">&#39;page action: empty list of controls for this page&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">cfg_control</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;controls&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="p">(</span><span class="s2">&quot;page action: Loading element &quot;</span>
+                 <span class="s2">&quot;as property name=&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cfg_control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)))</span>
+            <span class="n">control</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="n">cfg_control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">)</span>
+            <span class="c1"># load default value</span>
+            <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">instance</span> <span class="o">=</span> <span class="s1">&#39;ControlBase&#39;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">control</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;ControlBase&#39;</span><span class="p">:</span> <span class="n">ControlBase</span><span class="p">,</span>
+                    <span class="s1">&#39;ControlForm&#39;</span><span class="p">:</span> <span class="n">ControlForm</span><span class="p">,</span>
+                    <span class="s1">&#39;ControlGroup&#39;</span><span class="p">:</span> <span class="n">ControlGroup</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">instance</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="p">,</span> <span class="o">**</span><span class="n">cfg_control</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">((</span><span class="s2">&quot;Bad instance name selected for &quot;</span>
+                                <span class="s2">&quot;cfg_control=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cfg_control</span><span class="p">))</span>
+                <span class="n">control</span> <span class="o">=</span> <span class="n">ControlBase</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="p">,</span> <span class="o">**</span><span class="n">cfg_control</span><span class="p">)</span>
+            <span class="n">cfg_control</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;instance&#39;</span><span class="p">:</span> <span class="n">control</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_control</span><span class="p">(</span><span class="n">cfg_control</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg_control</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set control as property of PageBase instance</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            cfg_control {dict} -- config dictionary for manage WebElement</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            PageException -- if param cfg_control is None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cfg_control</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PageException</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s1">&#39;cfg_control can not be None&#39;</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">cfg_control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+            <span class="n">cfg_control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="PageBase.get_element"><a class="viewcode-back" href="../../../../../_static/pages.html#qacode.core.webs.pages.page_base.PageBase.get_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_control</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Search element on Bot instance</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            config_controls {dict} -- base dict for ControlBase class</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ControlBase -- an element to be use</span>
+<span class="sd">                throught selenium</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_elements</span><span class="p">([</span><span class="n">config_control</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PageBase.get_elements"><a class="viewcode-back" href="../../../../../_static/pages.html#qacode.core.webs.pages.page_base.PageBase.get_elements">[docs]</a>    <span class="k">def</span> <span class="nf">get_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_controls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Search element on Bot instance, choose selector</span>
+<span class="sd">            from instance or locator param</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            config_controls {dict} -- base dict for ControlBase class</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list(ControlBase) -- an element to be use as wrapper</span>
+<span class="sd">                for selenium functionality</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg_notfound</span> <span class="o">=</span> <span class="s2">&quot;Page element not found: &quot;</span>
+        <span class="s2">&quot;url=</span><span class="si">{}</span><span class="s2">, selector=</span><span class="si">{}</span><span class="s2">&quot;</span>
+        <span class="n">controls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">config_control</span> <span class="ow">in</span> <span class="n">config_controls</span><span class="p">:</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="n">config_control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;instance&quot;</span><span class="p">)</span>
+            <span class="n">control</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="p">(</span><span class="n">ControlBase</span><span class="p">,</span> <span class="n">ControlForm</span><span class="p">)):</span>
+                    <span class="n">controls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">PageException</span><span class="p">(</span>
+                        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Bad instance name for control&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">ControlException</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">ControlException</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg_notfound</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                    <span class="n">config_control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;selector&#39;</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">controls</span></div>
+
+<div class="viewcode-block" id="PageBase.go_url"><a class="viewcode-back" href="../../../../../_static/pages.html#qacode.core.webs.pages.page_base.PageBase.go_url">[docs]</a>    <span class="k">def</span> <span class="nf">go_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wait_for_load</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Go to url, choose url from instance or locator params</span>
+
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            url {str} -- string of FQDN, if None, load value from settings</span>
+<span class="sd">                (default: {self.settings.get(&#39;url&#39;)})</span>
+<span class="sd">            wait_for_load {int} -- [description] (default: {0})</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;page action: navigate to url=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">navigation</span><span class="o">.</span><span class="n">get_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">wait_for_load</span><span class="o">=</span><span class="n">wait_for_load</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PageBase.is_url"><a class="viewcode-back" href="../../../../../_static/pages.html#qacode.core.webs.pages.page_base.PageBase.is_url">[docs]</a>    <span class="k">def</span> <span class="nf">is_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_raises</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Allows to check if current selenium visible url it&#39;s the same</span>
+<span class="sd">            what self.url value</span>
+
+<span class="sd">        :Attributes:</span>
+<span class="sd">            url: default page url but can be string</span>
+<span class="sd">                 value used to verify url</span>
+<span class="sd">            ignore_raises: not raise exceptions if enabled</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">navigation</span><span class="o">.</span><span class="n">is_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">ignore_raises</span><span class="o">=</span><span class="n">ignore_raises</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">CoreException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PageException</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="s2">&quot;&#39;Current url&#39; is not &#39;page url&#39;&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Show basic properties for this object&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;PageBase: url=</span><span class="si">{}</span><span class="s1">, bot.browser=</span><span class="si">{}</span><span class="s1">, bot.mode=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;browser&#39;</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mode&#39;</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">qacode</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_static/bots.html">package: qacode.core.bots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_static/controls.html">package: qacode.core.webs.controls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_static/loggers.html">package: qacode.core.loggers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_static/pages.html">package: qacode.core.webs.pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_static/testing.html">package: qacode.core.testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../_static/testlink.html">package: qacode.core.testing.testlink</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Netzulo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
