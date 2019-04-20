@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>qacode.core.webs.controls.control_base &#8212; qacode v0.6.0 documentation</title>
+    <title>qacode.core.webs.controls.control_base &#8212; qacode v0.6.1 documentation</title>
     <link rel="stylesheet" href="../../../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
@@ -36,7 +36,7 @@
         </button>
         <a class="navbar-brand" href="../../../../../index.html">
           qacode</a>
-        <span class="navbar-text navbar-version pull-left"><b>6.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -116,15 +116,12 @@
 <span class="kn">from</span> <span class="nn">qacode.core.bots.bot_base</span> <span class="k">import</span> <span class="n">BotBase</span>
 <span class="kn">from</span> <span class="nn">qacode.core.exceptions.control_exception</span> <span class="k">import</span> <span class="n">ControlException</span>
 <span class="kn">from</span> <span class="nn">qacode.core.exceptions.core_exception</span> <span class="k">import</span> <span class="n">CoreException</span>
-<span class="kn">from</span> <span class="nn">qacode.core.loggers</span> <span class="k">import</span> <span class="n">logger_messages</span>
+<span class="kn">from</span> <span class="nn">qacode.core.loggers</span> <span class="k">import</span> <span class="n">logger_messages</span> <span class="k">as</span> <span class="n">MSG</span>
 <span class="kn">from</span> <span class="nn">selenium.common.exceptions</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">ElementNotVisibleException</span><span class="p">,</span> <span class="n">NoSuchElementException</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="k">import</span> <span class="n">By</span>
 <span class="kn">from</span> <span class="nn">selenium.webdriver.remote.webelement</span> <span class="k">import</span> <span class="n">WebElement</span>
-
-
-<span class="n">MSG</span> <span class="o">=</span> <span class="n">logger_messages</span>
 
 
 <div class="viewcode-block" id="ControlBase"><a class="viewcode-back" href="../../../../../controls.html#qacode.core.webs.controls.control_base.ControlBase">[docs]</a><span class="k">class</span> <span class="nc">ControlBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -138,7 +135,6 @@
     <span class="n">locator</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">selector</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">on_instance_search</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">on_instance_load</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">auto_reload</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">instance</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># Element properties</span>
@@ -150,11 +146,6 @@
     <span class="n">is_selected</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">attr_id</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">attr_class</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># Reload configuration</span>
-    <span class="n">RELOAD_CONFIG</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;on_instance_search&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s2">&quot;on_instance_load&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Wrapper for Selenium class named &#39;WebElement&#39; using</span>
@@ -167,21 +158,15 @@
             <span class="k">raise</span> <span class="n">ControlException</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Bad param &#39;bot&#39;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot</span>
         <span class="c1"># load settings before try to instance</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<div class="viewcode-block" id="ControlBase.load"><a class="viewcode-back" href="../../../../../controls.html#qacode.core.webs.controls.control_base.ControlBase.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Load properties from settings dict.</span>
-<span class="sd">            Some elements need to search False to be search at future</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># needed for self._load_* functions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">load_settings_keys</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__load_settings_keys__</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="c1"># instance logic</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_load_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__load_search__</span><span class="p">(</span>
             <span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_instance_search</span><span class="p">,</span>
             <span class="n">element</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_load_properties</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_instance_load</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ControlBase.load_settings_keys"><a class="viewcode-back" href="../../../../../controls.html#qacode.core.webs.controls.control_base.ControlBase.load_settings_keys">[docs]</a>    <span class="k">def</span> <span class="nf">load_settings_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__load_settings_keys__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span>
+                               <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load default setting for ControlBase instance&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_SETTINGS_LOADING</span><span class="p">)</span>
         <span class="c1"># generate default dict</span>
@@ -191,7 +176,6 @@
                 <span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;UNNAMED&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;locator&quot;</span><span class="p">,</span> <span class="n">By</span><span class="o">.</span><span class="n">CSS_SELECTOR</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;on_instance_search&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-                <span class="p">(</span><span class="s2">&quot;on_instance_load&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;auto_reload&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;instance&quot;</span><span class="p">,</span> <span class="s1">&#39;ControlBase&#39;</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -216,12 +200,13 @@
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">updated_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">update</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">updated_settings</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_SETTINGS_LOADED</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_SETTINGS_LOADED</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_load_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">element</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__load_search__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">element</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load element searching at selenium WebDriver&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">enabled</span> <span class="ow">or</span> <span class="n">enabled</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">enabled</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">enabled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_SEARCH_DISABLED</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_PROP_DISABLED</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_SEARCH_LOADING</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -240,26 +225,6 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">selector</span><span class="p">,</span> <span class="n">locator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">locator</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_SEARCH_FOUND</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span>
-
-    <span class="k">def</span> <span class="nf">_load_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Load default properties for base element</span>
-
-<span class="sd">        Keyword Arguments:</span>
-<span class="sd">            enabled {bool} -- load at enabled (default: {False})</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ControlException -- if enabled and settings</span>
-<span class="sd">                haven&#39;t key on_instance_search</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">enabled</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;on_instance_search&#39;</span><span class="p">):</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Can&#39;t call to load_properties &quot;</span>
-                   <span class="s2">&quot;wihout call first to load_search&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="n">ControlException</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">enabled</span> <span class="ow">or</span> <span class="n">enabled</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_PROP_DISABLED</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_PROP_LOADING</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
@@ -505,14 +470,13 @@
             <span class="n">config</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RELOAD_CONFIG</span><span class="p">)</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;on_instance_search&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
         <span class="c1"># needed for self._load_* functions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">load_settings_keys</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__load_settings_keys__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="c1"># instance logic</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_load_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__load_search__</span><span class="p">(</span>
             <span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_instance_search</span><span class="p">,</span>
             <span class="n">element</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_load_properties</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_instance_load</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">class_name</span> <span class="o">==</span> <span class="s1">&#39;ControlBase&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">MSG</span><span class="o">.</span><span class="n">CB_RELOAD_LOADED</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">class_name</span><span class="p">))</span></div>
 

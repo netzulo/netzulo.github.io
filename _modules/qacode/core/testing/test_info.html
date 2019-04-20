@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>qacode.core.testing.test_info &#8212; qacode v0.6.0 documentation</title>
+    <title>qacode.core.testing.test_info &#8212; qacode v0.6.1 documentation</title>
     <link rel="stylesheet" href="../../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
@@ -36,7 +36,7 @@
         </button>
         <a class="navbar-brand" href="../../../../index.html">
           qacode</a>
-        <span class="navbar-text navbar-version pull-left"><b>6.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -169,8 +169,8 @@
         <span class="sd">&quot;&quot;&quot;Close bot calling bot.close() from param&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">bot</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="TestInfoBase.settings_apps"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.settings_apps">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">settings_apps</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="TestInfoBase.cfg_apps"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.cfg_apps">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cfg_apps</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain inherit dict from &#39;cls.config&#39; dict named</span>
 <span class="sd">            &#39;config.tests.apps&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -178,76 +178,71 @@
             <span class="k">raise</span> <span class="n">CoreException</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Call to cls.load() first&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;apps&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TestInfoBase.settings_pages"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.settings_pages">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">settings_pages</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="TestInfoBase.cfg_pages"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.cfg_pages">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cfg_pages</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain inherit dict from &#39;cls.config&#39; dict named</span>
 <span class="sd">            &#39;config.tests.apps[i].pages&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CoreException</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Call to cls.load() first&quot;</span><span class="p">)</span>
         <span class="n">pages</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">settings_apps</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">cfg_apps</span><span class="p">():</span>
             <span class="n">pages</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pages&#39;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">pages</span></div>
 
-<div class="viewcode-block" id="TestInfoBase.settings_controls"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.settings_controls">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">settings_controls</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="TestInfoBase.cfg_controls"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.cfg_controls">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cfg_controls</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain inherit dict from &#39;cls.config&#39; dict named</span>
 <span class="sd">            &#39;config.tests.apps[i].pages[j].controls&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CoreException</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Call to cls.load() first&quot;</span><span class="p">)</span>
         <span class="n">controls</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">settings_pages</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">cfg_pages</span><span class="p">():</span>
             <span class="n">controls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;controls&#39;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">controls</span></div>
 
-<div class="viewcode-block" id="TestInfoBase.settings_app"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.settings_app">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">settings_app</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">app_name</span><span class="p">):</span>
+<div class="viewcode-block" id="TestInfoBase.cfg_app"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.cfg_app">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cfg_app</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">app_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain inherit dict from &#39;cls.config&#39; dict named</span>
 <span class="sd">            &#39;config.tests.apps&#39; filtering by &#39;app_name&#39; param</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">settings_apps</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">cfg_apps</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">app_name</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">app</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
             <span class="s2">&quot;Not found for: app_name=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">app_name</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="TestInfoBase.settings_page"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.settings_page">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">settings_page</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TestInfoBase.cfg_page"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.cfg_page">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cfg_page</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain inherit dict from &#39;cls.config&#39; dict named</span>
 <span class="sd">            &#39;config.tests.apps[i].pages&#39; filtering by &#39;page_name&#39; param</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">page_selected</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">apps</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">settings_apps</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">app_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">apps</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">settings_app</span><span class="p">(</span><span class="n">app_name</span><span class="p">)]</span>
+        <span class="n">apps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">app_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">apps</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">cfg_apps</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">cfg_app</span><span class="p">(</span><span class="n">app_name</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="n">apps</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pages&#39;</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">page_name</span><span class="p">:</span>
-                    <span class="n">page_selected</span> <span class="o">=</span> <span class="n">page</span>
-        <span class="k">return</span> <span class="n">page_selected</span></div>
+                    <span class="k">return</span> <span class="n">page</span></div>
 
-<div class="viewcode-block" id="TestInfoBase.settings_control"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.settings_control">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">settings_control</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">control_name</span><span class="p">,</span> <span class="n">page_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TestInfoBase.cfg_control"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.cfg_control">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cfg_control</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">control_name</span><span class="p">,</span> <span class="n">page_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Obtain inherit dict from &#39;cls.config&#39; dict named</span>
 <span class="sd">            &#39;config.tests.apps[i].pages[j].controls&#39; filtering by</span>
 <span class="sd">            &#39;control_name&#39; param</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">page_selected</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">page_selected</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">settings_page</span><span class="p">(</span>
-                <span class="n">page_name</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="n">app_name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">page_selected</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">control</span> <span class="ow">in</span> <span class="n">page_selected</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;controls&#39;</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">control_name</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">control</span>
+        <span class="n">controls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">page_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">controls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">cfg_controls</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">controls</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">settings_controls</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">control</span> <span class="ow">in</span> <span class="n">controls</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">control_name</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">control</span></div>
+            <span class="n">controls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">cfg_page</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="n">app_name</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">control</span> <span class="ow">in</span> <span class="n">controls</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">control</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">control_name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">control</span></div>
 
 <div class="viewcode-block" id="TestInfoBase.assert_message"><a class="viewcode-back" href="../../../../testing.html#qacode.core.testing.test_info.TestInfoBase.assert_message">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">assert_message</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">assert_name</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

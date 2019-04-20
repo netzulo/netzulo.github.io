@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>qacode.core.bots.modules.nav_base &#8212; qacode v0.6.0 documentation</title>
+    <title>qacode.core.bots.modules.nav_base &#8212; qacode v0.6.1 documentation</title>
     <link rel="stylesheet" href="../../../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
@@ -36,7 +36,7 @@
         </button>
         <a class="navbar-brand" href="../../../../../index.html">
           qacode</a>
-        <span class="navbar-text navbar-version pull-left"><b>6.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -459,24 +459,20 @@
 <span class="sd">            list() -- list of messages typed on a log_name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">log_name</span> <span class="o">==</span> <span class="s1">&#39;browser&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">(</span><span class="n">log_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">log_name</span> <span class="o">==</span> <span class="s1">&#39;driver&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">(</span><span class="n">log_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">log_name</span> <span class="o">==</span> <span class="s1">&#39;client&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">(</span><span class="n">log_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">log_name</span> <span class="o">==</span> <span class="s1">&#39;server&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">(</span><span class="n">log_name</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">WebDriverException</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;nav | get_log: log_name=</span><span class="si">{}</span><span class="s2">, err=</span><span class="si">{}</span><span class="s2">&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">log_name</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">msg</span><span class="p">))</span>
-            <span class="c1"># Selenium said, not all drivers will be handled</span>
-            <span class="c1"># by them with all options values</span>
-            <span class="k">if</span> <span class="n">raises</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">CoreException</span><span class="p">(</span>
-                    <span class="n">msg</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;selenium log_name just can be:&quot;</span>
-                         <span class="s2">&quot; [browser,driver,client,server]&quot;</span><span class="p">))</span>
-            <span class="k">return</span> <span class="p">[]</span></div>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;browser&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">,</span>
+                <span class="s1">&#39;driver&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">,</span>
+                <span class="s1">&#39;client&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">,</span>
+                <span class="s1">&#39;server&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get_log</span><span class="p">,</span>
+            <span class="p">}[</span><span class="n">log_name</span><span class="p">](</span><span class="n">log_name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="n">WebDriverException</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">CoreException</span><span class="p">(</span><span class="s2">&quot;Can&#39;t use not valid value to get log&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">((</span><span class="s2">&quot;nav | get_log: Selenium, not all drivers will&quot;</span>
+                            <span class="s2">&quot; be handled by them with all optionsvalues&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;nav | get_log: log_name=</span><span class="si">{}</span><span class="s2">, err=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">log_name</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">msg</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="NavBase.get_screenshot_as_base64"><a class="viewcode-back" href="../../../../../bots.html#qacode.core.bots.modules.nav_base.NavBase.get_screenshot_as_base64">[docs]</a>    <span class="k">def</span> <span class="nf">get_screenshot_as_base64</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets the screenshot of the current window as a base64 encoded string</span>

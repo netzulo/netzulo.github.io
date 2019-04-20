@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>package: qacode.core.webs.controls &#8212; qacode v0.6.0 documentation</title>
+    <title>package: qacode.core.webs.controls &#8212; qacode v0.6.1 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -38,7 +38,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           qacode</a>
-        <span class="navbar-text navbar-version pull-left"><b>6.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -79,6 +79,7 @@
 <li><a class="reference internal" href="#">package: qacode.core.webs.controls</a><ul>
 <li><a class="reference internal" href="#class-controlbase">Class: ControlBase</a></li>
 <li><a class="reference internal" href="#class-controlform">Class: ControlForm</a></li>
+<li><a class="reference internal" href="#class-controldropdown">Class: ControlDropdown</a></li>
 </ul>
 </li>
 </ul>
@@ -139,11 +140,6 @@
 <em class="property">class </em><code class="descclassname">qacode.core.webs.controls.control_base.</code><code class="descname">ControlBase</code><span class="sig-paren">(</span><em>bot</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_base.html#ControlBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Requirements: #35, #70</p>
-<dl class="attribute">
-<dt id="qacode.core.webs.controls.control_base.ControlBase.RELOAD_CONFIG">
-<code class="descname">RELOAD_CONFIG</code><em class="property"> = {'on_instance_load': True, 'on_instance_search': True}</em><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.RELOAD_CONFIG" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="attribute">
 <dt id="qacode.core.webs.controls.control_base.ControlBase.attr_class">
 <code class="descname">attr_class</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.attr_class" title="Permalink to this definition">¶</a></dt>
@@ -317,19 +313,6 @@ read text (default: {True})</dd>
 <code class="descname">is_selected</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.is_selected" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="qacode.core.webs.controls.control_base.ControlBase.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_base.html#ControlBase.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load properties from settings dict.
-Some elements need to search False to be search at future</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="qacode.core.webs.controls.control_base.ControlBase.load_settings_keys">
-<code class="descname">load_settings_keys</code><span class="sig-paren">(</span><em>settings</em>, <em>update=False</em>, <em>default_keys=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_base.html#ControlBase.load_settings_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.load_settings_keys" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load default setting for ControlBase instance</p>
-</dd></dl>
-
 <dl class="attribute">
 <dt id="qacode.core.webs.controls.control_base.ControlBase.locator">
 <code class="descname">locator</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.locator" title="Permalink to this definition">¶</a></dt>
@@ -338,11 +321,6 @@ Some elements need to search False to be search at future</p>
 <dl class="attribute">
 <dt id="qacode.core.webs.controls.control_base.ControlBase.name">
 <code class="descname">name</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="qacode.core.webs.controls.control_base.ControlBase.on_instance_load">
-<code class="descname">on_instance_load</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_base.ControlBase.on_instance_load" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -567,19 +545,6 @@ read text (default: {True})</dd>
 
 <dl class="method">
 <dt>
-<code class="descname">load</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_base.html#ControlBase.load"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Load properties from settings dict.
-Some elements need to search False to be search at future</p>
-</dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">load_settings_keys</code><span class="sig-paren">(</span><em>settings</em>, <em>update=False</em>, <em>default_keys=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_base.html#ControlBase.load_settings_keys"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Load default setting for ControlBase instance</p>
-</dd></dl>
-
-<dl class="method">
-<dt>
 <code class="descname">reload</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_base.html#ControlBase.reload"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Reload ‘self.settings’ property:dict and call to instance
 logic with new configuration</p>
@@ -653,82 +618,14 @@ prop_value {str} – CSS property value</dd>
 <dd><p>Bases: <a class="reference internal" href="#qacode.core.webs.controls.control_base.ControlBase" title="qacode.core.webs.controls.control_base.ControlBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">qacode.core.webs.controls.control_base.ControlBase</span></code></a></p>
 <p>Requirements: #63</p>
 <dl class="attribute">
-<dt id="qacode.core.webs.controls.control_form.ControlForm.dropdown">
-<code class="descname">dropdown</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_form.ControlForm.dropdown" title="Permalink to this definition">¶</a></dt>
+<dt id="qacode.core.webs.controls.control_form.ControlForm.IS_DROPDOWN">
+<code class="descname">IS_DROPDOWN</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_form.ControlForm.IS_DROPDOWN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="qacode.core.webs.controls.control_form.ControlForm.dropdown_deselect">
-<code class="descname">dropdown_deselect</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.dropdown_deselect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_form.ControlForm.dropdown_deselect" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>The Select class only works with tags which have select tags.</dt>
-<dd>Using the Index of Dropdown (int)
-Using the Value of Dropdown (str)
-Using the Text of Dropdown (str)</dd>
-<dt>Arguments:</dt>
-<dd><dl class="first last docutils">
-<dt>text {str|int} – Probably the easiest way of doing it. You</dt>
-<dd>have to match the text which is displayed in the drop down.</dd>
-</dl>
-</dd>
-<dt>Keyword Arguments:</dt>
-<dd><dl class="first last docutils">
-<dt>by_value {bool} – We can use to select an option using the</dt>
-<dd>value attribute. (default: {False})</dd>
-<dt>by_index {bool} – We can use to select an option using the</dt>
-<dd>index attribute. (default: {False})</dd>
-</dl>
-</dd>
-<dt>Raises:</dt>
-<dd>ControlException – if tag is not ‘select’
-ControlException – if all flags are ‘True’</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="qacode.core.webs.controls.control_form.ControlForm.dropdown_deselect_all">
-<code class="descname">dropdown_deselect_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.dropdown_deselect_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_form.ControlForm.dropdown_deselect_all" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>The Select class only works with tags which have select</dt>
-<dd>tags with multiple=”multiple” attribute.</dd>
-<dt>Raises:</dt>
-<dd>ControlException – if tag is not ‘select’</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="qacode.core.webs.controls.control_form.ControlForm.dropdown_select">
-<code class="descname">dropdown_select</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.dropdown_select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_form.ControlForm.dropdown_select" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>The Select class only works with tags which have select tags.</dt>
-<dd>Using the Index of Dropdown (int)
-Using the Value of Dropdown (str)
-Using the Text of Dropdown (str)</dd>
-<dt>Arguments:</dt>
-<dd><dl class="first last docutils">
-<dt>text {str|int} – Probably the easiest way of doing it. You</dt>
-<dd>have to match the text which is displayed in the drop down.</dd>
-</dl>
-</dd>
-<dt>Keyword Arguments:</dt>
-<dd><dl class="first last docutils">
-<dt>by_value {bool} – We can use to select an option using the</dt>
-<dd>value attribute. (default: {False})</dd>
-<dt>by_index {bool} – We can use to select an option using the</dt>
-<dd>index attribute. (default: {False})</dd>
-</dl>
-</dd>
-<dt>Raises:</dt>
-<dd>ControlException – if tag is not ‘select’
-ControlException – if all flags are ‘True’</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="qacode.core.webs.controls.control_form.ControlForm.load_settings_keys">
-<code class="descname">load_settings_keys</code><span class="sig-paren">(</span><em>settings</em>, <em>update=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.load_settings_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_form.ControlForm.load_settings_keys" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load default setting for ControlForm instance</p>
-</dd></dl>
+<dl class="attribute">
+<dt id="qacode.core.webs.controls.control_form.ControlForm.IS_TABLE">
+<code class="descname">IS_TABLE</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_form.ControlForm.IS_TABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="qacode.core.webs.controls.control_form.ControlForm.reload">
@@ -750,7 +647,112 @@ logic with new configuration</p>
 <dd><p>Requirements: #63</p>
 <dl class="method">
 <dt>
-<code class="descname">dropdown_deselect</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.dropdown_deselect"><span class="viewcode-link">[source]</span></a></dt>
+<code class="descname">reload</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.reload"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Reload ‘self.settings’ property:dict and call to instance
+logic with new configuration</p>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</div>
+<div class="section" id="class-controldropdown">
+<h2>Class: ControlDropdown<a class="headerlink" href="#class-controldropdown" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><span class="target" id="module-qacode.core.webs.controls.control_dropdown"></span><p>Package module qacode.core.webs.control_form</p>
+<dl class="class">
+<dt id="qacode.core.webs.controls.control_dropdown.ControlDropdown">
+<em class="property">class </em><code class="descclassname">qacode.core.webs.controls.control_dropdown.</code><code class="descname">ControlDropdown</code><span class="sig-paren">(</span><em>bot</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_dropdown.ControlDropdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qacode.core.webs.controls.control_form.ControlForm" title="qacode.core.webs.controls.control_form.ControlForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">qacode.core.webs.controls.control_form.ControlForm</span></code></a></p>
+<p>TODO: doc class</p>
+<dl class="method">
+<dt id="qacode.core.webs.controls.control_dropdown.ControlDropdown.deselect">
+<code class="descname">deselect</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.deselect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_dropdown.ControlDropdown.deselect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>The Select class only works with tags which have select tags.</dt>
+<dd>Using the Index of Dropdown (int)
+Using the Value of Dropdown (str)
+Using the Text of Dropdown (str)</dd>
+<dt>Arguments:</dt>
+<dd><dl class="first last docutils">
+<dt>text {str|int} – Probably the easiest way of doing it. You</dt>
+<dd>have to match the text which is displayed in the drop down.</dd>
+</dl>
+</dd>
+<dt>Keyword Arguments:</dt>
+<dd><dl class="first last docutils">
+<dt>by_value {bool} – We can use to select an option using the</dt>
+<dd>value attribute. (default: {False})</dd>
+<dt>by_index {bool} – We can use to select an option using the</dt>
+<dd>index attribute. (default: {False})</dd>
+</dl>
+</dd>
+<dt>Raises:</dt>
+<dd>ControlException – if tag is not ‘select’
+ControlException – if all flags are ‘True’</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="qacode.core.webs.controls.control_dropdown.ControlDropdown.deselect_all">
+<code class="descname">deselect_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.deselect_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_dropdown.ControlDropdown.deselect_all" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>The Select class only works with tags which have select</dt>
+<dd>tags with multiple=”multiple” attribute.</dd>
+<dt>Raises:</dt>
+<dd>ControlException – if tag is not ‘select’</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="qacode.core.webs.controls.control_dropdown.ControlDropdown.dropdown">
+<code class="descname">dropdown</code><em class="property"> = None</em><a class="headerlink" href="#qacode.core.webs.controls.control_dropdown.ControlDropdown.dropdown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="qacode.core.webs.controls.control_dropdown.ControlDropdown.reload">
+<code class="descname">reload</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.reload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_dropdown.ControlDropdown.reload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reload ‘self.settings’ property:dict and call to instance
+logic with new configuration</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="qacode.core.webs.controls.control_dropdown.ControlDropdown.select">
+<code class="descname">select</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#qacode.core.webs.controls.control_dropdown.ControlDropdown.select" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>The Select class only works with tags which have select tags.</dt>
+<dd>Using the Index of Dropdown (int)
+Using the Value of Dropdown (str)
+Using the Text of Dropdown (str)</dd>
+<dt>Arguments:</dt>
+<dd><dl class="first last docutils">
+<dt>text {str|int} – Probably the easiest way of doing it. You</dt>
+<dd>have to match the text which is displayed in the drop down.</dd>
+</dl>
+</dd>
+<dt>Keyword Arguments:</dt>
+<dd><dl class="first last docutils">
+<dt>by_value {bool} – We can use to select an option using the</dt>
+<dd>value attribute. (default: {False})</dd>
+<dt>by_index {bool} – We can use to select an option using the</dt>
+<dd>index attribute. (default: {False})</dd>
+</dl>
+</dd>
+<dt>Raises:</dt>
+<dd>ControlException – if tag is not ‘select’
+ControlException – if all flags are ‘True’</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">qacode.core.webs.controls.control_dropdown.</code><code class="descname">ControlDropdown</code><span class="sig-paren">(</span><em>bot</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>TODO: doc class</p>
+<dl class="method">
+<dt>
+<code class="descname">deselect</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.deselect"><span class="viewcode-link">[source]</span></a></dt>
 <dd><dl class="docutils">
 <dt>The Select class only works with tags which have select tags.</dt>
 <dd>Using the Index of Dropdown (int)
@@ -778,7 +780,7 @@ ControlException – if all flags are ‘True’</dd>
 
 <dl class="method">
 <dt>
-<code class="descname">dropdown_deselect_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.dropdown_deselect_all"><span class="viewcode-link">[source]</span></a></dt>
+<code class="descname">deselect_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.deselect_all"><span class="viewcode-link">[source]</span></a></dt>
 <dd><dl class="docutils">
 <dt>The Select class only works with tags which have select</dt>
 <dd>tags with multiple=”multiple” attribute.</dd>
@@ -789,7 +791,14 @@ ControlException – if all flags are ‘True’</dd>
 
 <dl class="method">
 <dt>
-<code class="descname">dropdown_select</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.dropdown_select"><span class="viewcode-link">[source]</span></a></dt>
+<code class="descname">reload</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.reload"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Reload ‘self.settings’ property:dict and call to instance
+logic with new configuration</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">select</code><span class="sig-paren">(</span><em>text</em>, <em>by_value=False</em>, <em>by_index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_dropdown.html#ControlDropdown.select"><span class="viewcode-link">[source]</span></a></dt>
 <dd><dl class="docutils">
 <dt>The Select class only works with tags which have select tags.</dt>
 <dd>Using the Index of Dropdown (int)
@@ -813,19 +822,6 @@ Using the Text of Dropdown (str)</dd>
 <dd>ControlException – if tag is not ‘select’
 ControlException – if all flags are ‘True’</dd>
 </dl>
-</dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">load_settings_keys</code><span class="sig-paren">(</span><em>settings</em>, <em>update=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.load_settings_keys"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Load default setting for ControlForm instance</p>
-</dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">reload</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qacode/core/webs/controls/control_form.html#ControlForm.reload"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Reload ‘self.settings’ property:dict and call to instance
-logic with new configuration</p>
 </dd></dl>
 
 </dd></dl>
